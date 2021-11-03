@@ -2,6 +2,7 @@ import * as THREE from 'three'
 // eslint-disable-next-line import/extensions
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import * as dat from 'dat.gui'
+import Tree from './Tree'
 
 class App {
   constructor() {
@@ -22,6 +23,8 @@ class App {
     this.initRenderer()
     this.resize()
 
+    this.initAxis()
+    this.initAmbientLight()
     this.initTree()
 
     this.clock = new THREE.Clock()
@@ -33,26 +36,18 @@ class App {
   //
   initScene() {
     this.scene = new THREE.Scene()
-    this.scene.fog = new THREE.Fog('black', 0.1, 60)
+    // this.scene.fog = new THREE.Fog('black', 0.1, 60)
   }
 
   initCamera() {
     // Base camera
-    this.camera = new THREE.PerspectiveCamera(75, this.sizes.width / this.sizes.height, 0.1, 100)
-    this.camera.position.set(2.9, 2, 2.9)
+    this.camera = new THREE.PerspectiveCamera(75, this.sizes.width / this.sizes.height, 0.1, 1000)
+    this.camera.position.set(0, 40, 40)
+    this.camera.lookAt(0, 20, 0)
     this.scene.add(this.camera)
 
     // Controls
     this.controls = new OrbitControls(this.camera, this.canvas)
-    if (this.debug) return
-    this.controls.maxPolarAngle = Math.PI * 0.495
-    this.controls.minPolarAngle = Math.PI * 0.1
-    this.controls.target.set(0, 0, 0)
-    this.controls.minDistance = 3
-    this.controls.maxDistance = 10
-    this.controls.enablePan = false
-    this.controls.enableDamping = true
-    this.controls.update()
   }
 
   initRenderer() {
@@ -66,8 +61,22 @@ class App {
   //
   // INIT MAP
   //
+  initAxis() {
+    console.log(this.debug)
+    if (this.debug) {
+      const axisHelper = new THREE.AxesHelper(10)
+      this.scene.add(axisHelper)
+    }
+  }
+  initAmbientLight() {
+    this.ambientLight = new THREE.AmbientLight(0xffffff, 1)
+    this.scene.add(this.ambientLight)
+  }
+
   initTree() {
-    // TODO
+    this.tree = new Tree({
+      scene: this.scene
+    })
   }
 
 
@@ -104,6 +113,8 @@ class App {
 
     // Update controls
     this.controls.update()
+
+    this.tree.update(elapsedTime)
 
     // Render
     this.renderer.render(this.scene, this.camera)
