@@ -43,11 +43,11 @@ class App {
     // Base camera
     this.camera = new THREE.PerspectiveCamera(75, this.sizes.width / this.sizes.height, 0.1, 1000)
     this.camera.position.set(0, 40, 40)
-    this.camera.lookAt(0, 20, 0)
     this.scene.add(this.camera)
 
     // Controls
     this.controls = new OrbitControls(this.camera, this.canvas)
+    this.controls.target = new THREE.Vector3(0, 20, 0);
   }
 
   initRenderer() {
