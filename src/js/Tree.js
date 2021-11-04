@@ -1,15 +1,16 @@
 import * as THREE from 'three'
 
 const MATERIAL = new THREE.MeshNormalMaterial()
+const MIN_DIFFERENCE_ANGLE = Math.PI*0.25
 class Tree {
   constructor({ scene }) {
     Object.assign(this, { scene })
 
     console.log('init')
-    this.newBranch(0, 0, 5, 20)
+    this.newBranch(0, 0, 0, 5, 20, 0, Math.PI * 0.5)
   }
 
-  newBranch(x, y, width, height,) {
+  newBranch(x, y, z, width, height, angle, rotationY) {
     const nextWidth = width * 0.67
 
     // init Mesh
@@ -22,8 +23,8 @@ class Tree {
     const parent = new THREE.Object3D()
     parent.add(cylinder)
     parent.position.set(x, y, 0)
-    const angle = Math.PI / 2 * (Math.random() - 0.5)
     parent.rotation.z = angle
+    parent.rotation.y = 0
     this.scene.add(parent)
 
 
@@ -42,7 +43,28 @@ class Tree {
     sphere.position.set(posX, posY, 0)
     this.scene.add(sphere)
 
-    this.newBranch(posX, posY, nextWidth, height * 0.67)
+    // const branches = Math.floor(Math.random() * 3)
+    const branches = 2
+
+    if (branches === 0) return
+
+    const rotateY =  rotationY
+
+    if (branches === 1) {
+      this.newBranch(posX, posY, 0, nextWidth, height * 0.67, Math.PI * (Math.random() - 0.5), rotateY)
+    } else if (branches === 2) {
+      const angle1 = Math.PI * (Math.random() - 0.5)
+      const angle2 = angle1 < 0 ? 
+        Math.min(Math.PI * 0.5 * Math.random(), angle1 + MIN_DIFFERENCE_ANGLE)
+         : Math.max(Math.PI * -0.5 * Math.random(), angle1 - MIN_DIFFERENCE_ANGLE)
+
+      this.newBranch(posX, posY, 0, nextWidth, height * 0.67, angle1, rotateY)
+      this.newBranch(posX, posY, 0, nextWidth, height * 0.67, angle2, rotateY)
+    } else {
+
+    }
+
+    // this.newBranch(posX, posY, nextWidth, height * 0.67, Math.PI * (Math.random() - 0.5))
   }
 
   //
