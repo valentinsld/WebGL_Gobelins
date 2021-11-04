@@ -1,20 +1,24 @@
 import * as THREE from 'three'
+import gsap from 'gsap'
+
 import Seed from './Seed'
 
 const MATERIAL = new THREE.MeshNormalMaterial()
 const MIN_DIFFERENCE_ANGLE = Math.PI*0.2
 const WIDTH = 6
 const HEIGHT = 24
-const MAX_LEVEL = 7
+const MAX_LEVEL = 5
 class Tree {
   constructor({ scene }) {
     Object.assign(this, { scene })
 
     this.seed = new Seed(42)
 
-    this.listBranches = new Array(MAX_LEVEL).fill([])
+    this.listBranches = [... new Array(MAX_LEVEL + 1)].map(() => [])
     
     this.initBranches()
+    
+    setTimeout(this.animation.bind(this), 1000);
   }
 
   //
@@ -65,12 +69,14 @@ class Tree {
     // parent
     const parent = new THREE.Object3D()
     parent.add(mesh);
-    
-    // parent
+
     parent.position.set(pos.x, pos.y, 0)
     parent.rotation.z = angle
     parent.rotation.y = rotationY
+    parent.scale.y = 0
     parentContainer.add(parent)
+
+    this.listBranches[level].push({ mesh: parent, height })
 
     //
     // next branches
@@ -147,22 +153,20 @@ class Tree {
   //
   // Update THREE
   //
-  updateScene() {
-    console.log(this.initTree)
-    this.initTree.traverse((child) => {
-      if (child instanceof THREE.Mesh) {
-        const clone = child.clone()
-        const position = child.getWorldPosition(child.position)
-        console.log
-        clone.position.x = position.x
-        clone.position.y = position.y
-        clone.position.z = position.z
-        this.scene.add(clone)
-      }
+  animation() {
+    console.log()
+    this.listBranches.map((list, index) => {
+      list.map((el) => {
+        gsap.to(
+          el.mesh.scale,
+          {
+            y: 1,
+            duration: 2.5 - el.height / HEIGHT * 2,
+            delay: index / 2
+          }
+        )
+      })
     })
-
-    console.log(this.scene.children.length)
-    console.log(this.scene.children[20])
   }
 
   //
