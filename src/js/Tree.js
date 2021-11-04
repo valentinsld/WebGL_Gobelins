@@ -3,11 +3,10 @@ import gsap from 'gsap'
 
 import Seed from './Seed'
 
-const MATERIAL = new THREE.MeshNormalMaterial()
 const MIN_DIFFERENCE_ANGLE = Math.PI*0.2
-const WIDTH = 6
-const HEIGHT = 24
-const MAX_LEVEL = 7
+const WIDTH = 3.5
+const HEIGHT = 26
+const MAX_LEVEL = 4
 class Tree {
   constructor({ scene }) {
     Object.assign(this, { scene })
@@ -16,9 +15,22 @@ class Tree {
 
     this.listBranches = [... new Array(MAX_LEVEL + 1)].map(() => [])
     
+    this.initMaterial()
     this.initBranches()
     
     setTimeout(this.animation.bind(this), 1000);
+  }
+
+  initMaterial() {
+    const treeMapTexture = new THREE.TextureLoader().load( 'textures/bark.png' );
+    const treeNormalMap = new THREE.TextureLoader().load( 'textures/bark_normal.png' );
+    const treeDisplacementMap = new THREE.TextureLoader().load( 'textures/bark_normal.png' );
+
+    this.MATERIAL = new THREE.MeshPhongMaterial({
+      shininess : 5,
+      map: treeMapTexture,
+      normalMap: treeNormalMap
+    })
   }
 
   //
@@ -55,7 +67,7 @@ class Tree {
     // sphere
     const sphere = new THREE.Mesh(
       new THREE.SphereGeometry(nextWidth, 16, 16),
-      MATERIAL
+      this.MATERIAL
     )
     sphere.position.y = height / 2
     
@@ -63,7 +75,7 @@ class Tree {
     sphere.updateMatrix()
     cylinder.merge(sphere.geometry, sphere.matrix)
 
-    const mesh = new THREE.Mesh(cylinder, MATERIAL)
+    const mesh = new THREE.Mesh(cylinder, this.MATERIAL)
     mesh.position.y = height / 2
 
     // parent
