@@ -7,7 +7,7 @@ const MATERIAL = new THREE.MeshNormalMaterial()
 const MIN_DIFFERENCE_ANGLE = Math.PI*0.2
 const WIDTH = 6
 const HEIGHT = 24
-const MAX_LEVEL = 5
+const MAX_LEVEL = 7
 class Tree {
   constructor({ scene }) {
     Object.assign(this, { scene })
@@ -161,7 +161,8 @@ class Tree {
           el.mesh.scale,
           {
             y: 1,
-            duration: 2.5 - el.height / HEIGHT * 2,
+            duration: 2.8 - el.height / HEIGHT * 2,
+            ease: 'power2.out',
             delay: index / 2
           }
         )
