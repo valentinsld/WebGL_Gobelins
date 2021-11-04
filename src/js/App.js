@@ -62,7 +62,6 @@ class App {
   // INIT MAP
   //
   initAxis() {
-    console.log(this.debug)
     if (this.debug) {
       const axisHelper = new THREE.AxesHelper(10)
       this.scene.add(axisHelper)
