@@ -5,11 +5,12 @@ const MATERIAL = new THREE.MeshNormalMaterial()
 const MIN_DIFFERENCE_ANGLE = Math.PI*0.2
 const WIDTH = 6
 const HEIGHT = 24
+const MAX_LEVEL = 6
 class Tree {
   constructor({ scene }) {
     Object.assign(this, { scene })
 
-    this.seed = new Seed(4)
+    this.seed = new Seed(2)
 
     // this.newBranch(0, 0, 0, WIDTH, HEIGHT, 0, Math.PI * 0.5, this.scene)
     this.newBranch({
@@ -26,8 +27,9 @@ class Tree {
     })
   }
 
-  newBranch({ pos, width, height, angle, rotationY, parentContainer }) {
-    const nextWidth = width * 0.67
+  newBranch({ pos, width, height, angle, rotationY, parentContainer, level = 0 }) {
+    const isLastBranch = level >= MAX_LEVEL
+    const nextWidth = isLastBranch ? width * 0.3 : width * 0.67
 
     // init Mesh
     const cylinder = new THREE.Mesh(
@@ -44,8 +46,6 @@ class Tree {
     parentContainer.add(parent)
 
 
-    if (width < 1) return
-
     // nextPOSITION :
     const positionNextBranch = {
       x: 0,
@@ -61,15 +61,24 @@ class Tree {
     sphere.position.set(positionNextBranch.x, positionNextBranch.y, 0)
     parent.add(sphere)
 
-    // const branches = Math.floor(this.seed.nextFloat() * 3)
-    const branches = 2
+    const branches = Math.round(1.5 +this.seed.nextFloat() * 2)
 
-    if (branches === 0) return
+    if (isLastBranch) return
 
-    const rotateY = (this.seed.nextFloat() - 0.5) * Math.PI
+    const initParamsBranch = {
+      pos: positionNextBranch,
+      width: nextWidth,
+      height: height * 0.67,
+      rotationY: (this.seed.nextFloat() - 0.5) * Math.PI,
+      parentContainer: parent,
+      level: level + 1
+    }
 
     if (branches === 1) {
-      // this.newBranch(posX, posY, 0, nextWidth, height * 0.67, Math.PI * (this.seed.nextFloat() - 0.5), rotateY, parent)
+      this.newBranch({
+        ...initParamsBranch,
+        angle: this.getRandomAngle(),
+      })
     } else if (branches === 2) {
       const angle1 = this.getRandomAngle()
       const angle2 = angle1 < 0 ? 
@@ -78,23 +87,35 @@ class Tree {
 
 
       this.newBranch({
-        pos: positionNextBranch,
-        width: nextWidth,
-        height: height * 0.67,
+        ...initParamsBranch,
         angle: angle1,
-        rotationY: rotateY,
-        parentContainer: parent
+        rotationY: (this.seed.nextFloat() - 0.5) * Math.PI,
       })
       this.newBranch({
-        pos: positionNextBranch,
-        width: nextWidth,
-        height: height * 0.67,
+        ...initParamsBranch,
         angle: angle2,
-        rotationY: rotateY,
-        parentContainer: parent
+        rotationY: (this.seed.nextFloat() - 0.5) * Math.PI,
       })
     } else {
+      const angle1 = this.getRandomAngle() * 0.5
+      const angle2 = Math.max(this.getRandomAngle(), angle1 + MIN_DIFFERENCE_ANGLE)
+      const angle3 = Math.min(this.getRandomAngle(), angle1 - MIN_DIFFERENCE_ANGLE)
 
+      this.newBranch({
+        ...initParamsBranch,
+        angle: angle1,
+        rotationY: (this.seed.nextFloat() - 0.5) * Math.PI,
+      })
+      this.newBranch({
+        ...initParamsBranch,
+        angle: angle2,
+        rotationY: (this.seed.nextFloat() - 0.5) * Math.PI,
+      })
+      this.newBranch({
+        ...initParamsBranch,
+        angle: angle3,
+        rotationY: (this.seed.nextFloat() - 0.5) * Math.PI,
+      })
     }
   }
 
