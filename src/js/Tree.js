@@ -7,10 +7,10 @@ class Tree {
     Object.assign(this, { scene })
 
     console.log('init')
-    this.newBranch(0, 0, 0, 5, 20, 0, Math.PI * 0.5)
+    this.newBranch(0, 0, 0, 5, 20, 0, Math.PI * 0.5, this.scene)
   }
 
-  newBranch(x, y, z, width, height, angle, rotationY) {
+  newBranch(x, y, z, width, height, angle, rotationY, parentContainer) {
     const nextWidth = width * 0.67
 
     // init Mesh
@@ -24,8 +24,8 @@ class Tree {
     parent.add(cylinder)
     parent.position.set(x, y, 0)
     parent.rotation.z = angle
-    parent.rotation.y = 0
-    this.scene.add(parent)
+    parent.rotation.y = rotationY
+    parentContainer.add(parent)
 
 
     if (width < 1) return
@@ -33,15 +33,17 @@ class Tree {
     // POSITION :
     // x = x0 + r*cos(t)
     // y = y0 + r*sin(t)
-    const posX = x + height * Math.cos(angle + Math.PI * .5)
-    const posY = y + height * Math.sin(angle + Math.PI * .5)
+    // const posX = x + height * Math.cos(angle + Math.PI * .5)
+    // const posY = y + height * Math.sin(angle + Math.PI * .5)
+    const posX = 0
+    const posY = height
 
     const sphere = new THREE.Mesh(
       new THREE.SphereGeometry(nextWidth, 16, 16),
       MATERIAL
     )
     sphere.position.set(posX, posY, 0)
-    this.scene.add(sphere)
+    parent.add(sphere)
 
     // const branches = Math.floor(Math.random() * 3)
     const branches = 2
@@ -51,15 +53,15 @@ class Tree {
     const rotateY =  rotationY
 
     if (branches === 1) {
-      this.newBranch(posX, posY, 0, nextWidth, height * 0.67, Math.PI * (Math.random() - 0.5), rotateY)
+      this.newBranch(posX, posY, 0, nextWidth, height * 0.67, Math.PI * (Math.random() - 0.5), rotateY, parent)
     } else if (branches === 2) {
       const angle1 = Math.PI * (Math.random() - 0.5)
       const angle2 = angle1 < 0 ? 
         Math.min(Math.PI * 0.5 * Math.random(), angle1 + MIN_DIFFERENCE_ANGLE)
          : Math.max(Math.PI * -0.5 * Math.random(), angle1 - MIN_DIFFERENCE_ANGLE)
 
-      this.newBranch(posX, posY, 0, nextWidth, height * 0.67, angle1, rotateY)
-      this.newBranch(posX, posY, 0, nextWidth, height * 0.67, angle2, rotateY)
+      this.newBranch(posX, posY, 0, nextWidth, height * 0.67, angle1, rotateY, parent)
+      this.newBranch(posX, posY, 0, nextWidth, height * 0.67, angle2, rotateY, parent)
     } else {
 
     }
