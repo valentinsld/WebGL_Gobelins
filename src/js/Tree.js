@@ -68,7 +68,7 @@ class Tree {
     const initParamsBranch = {
       pos: positionNextBranch,
       width: nextWidth,
-      height: height * 0.67,
+      height: height * 0.75,
       rotationY: (this.seed.nextFloat() - 0.5) * Math.PI,
       parentContainer: parent,
       level: level + 1
@@ -120,8 +120,8 @@ class Tree {
   }
 
   getRandomAngle() {
-    const min = -Math.PI * 0.25
-    const max = Math.PI * 0.25
+    const min = -Math.PI * 0.4
+    const max = Math.PI * 0.4
     return this.seed.nextFloat() * (max - min) + min
   }
 
