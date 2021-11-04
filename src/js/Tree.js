@@ -1,10 +1,13 @@
 import * as THREE from 'three'
+import Seed from './Seed'
 
 const MATERIAL = new THREE.MeshNormalMaterial()
 const MIN_DIFFERENCE_ANGLE = Math.PI*0.25
 class Tree {
   constructor({ scene }) {
     Object.assign(this, { scene })
+
+    this.seed = new Seed(10)
 
     console.log('init')
     this.newBranch(0, 0, 0, 5, 20, 0, Math.PI * 0.5, this.scene)
@@ -45,7 +48,7 @@ class Tree {
     sphere.position.set(posX, posY, 0)
     parent.add(sphere)
 
-    // const branches = Math.floor(Math.random() * 3)
+    // const branches = Math.floor(this.seed.nextFloat() * 3)
     const branches = 2
 
     if (branches === 0) return
@@ -53,12 +56,12 @@ class Tree {
     const rotateY =  rotationY
 
     if (branches === 1) {
-      this.newBranch(posX, posY, 0, nextWidth, height * 0.67, Math.PI * (Math.random() - 0.5), rotateY, parent)
+      this.newBranch(posX, posY, 0, nextWidth, height * 0.67, Math.PI * (this.seed.nextFloat() - 0.5), rotateY, parent)
     } else if (branches === 2) {
-      const angle1 = Math.PI * (Math.random() - 0.5)
+      const angle1 = Math.PI * (this.seed.nextFloat() - 0.5)
       const angle2 = angle1 < 0 ? 
-        Math.min(Math.PI * 0.5 * Math.random(), angle1 + MIN_DIFFERENCE_ANGLE)
-         : Math.max(Math.PI * -0.5 * Math.random(), angle1 - MIN_DIFFERENCE_ANGLE)
+        Math.min(Math.PI * 0.5 * this.seed.nextFloat(), angle1 + MIN_DIFFERENCE_ANGLE)
+         : Math.max(Math.PI * -0.5 * this.seed.nextFloat(), angle1 - MIN_DIFFERENCE_ANGLE)
 
       this.newBranch(posX, posY, 0, nextWidth, height * 0.67, angle1, rotateY, parent)
       this.newBranch(posX, posY, 0, nextWidth, height * 0.67, angle2, rotateY, parent)
@@ -66,7 +69,7 @@ class Tree {
 
     }
 
-    // this.newBranch(posX, posY, nextWidth, height * 0.67, Math.PI * (Math.random() - 0.5))
+    // this.newBranch(posX, posY, nextWidth, height * 0.67, Math.PI * (this.seed.nextFloat() - 0.5))
   }
 
   //
