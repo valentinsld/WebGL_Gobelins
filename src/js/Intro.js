@@ -5,6 +5,7 @@ class Intro{
     Object.assign(this, { startFunc })
 
     this.container = document.querySelector('.intro')
+    this.infoContainer = document.querySelector('.info')
 
     this.initInput()
     this.initButton()
@@ -15,7 +16,7 @@ class Intro{
 
     const dateToday = new Date()
     const day = dateToday.getDay().toString().padStart(2, '0')
-    const month = dateToday.getMonth()
+    const month = dateToday.getMonth().toString().padStart(2, '0')
     const year = dateToday.getFullYear()
     const todayText = `${year}-${month}-${day}`
 
@@ -34,7 +35,12 @@ class Intro{
 
       const date = new Date(this.inputDate.value)
       const seed = date.getTime()
-      const age = new Date().getFullYear() - date.getFullYear()
+      const age = this.getAge(this.inputDate.value)
+
+      // set data
+      document.querySelector('#infoDate').textContent = `${date.getFullYear()}-${date.getMonth().toString().padStart(2, '0')}-${date.getDay().toString().padStart(2, '0')}`
+      document.querySelector('#infoSeed').textContent = seed
+      document.querySelector('#infoAge').textContent = age
 
       setTimeout(() => {
         this.startFunc.call(undefined, seed, age)
@@ -43,6 +49,7 @@ class Intro{
   }
 
   hide(func) {
+    // hide intro
     gsap.to(
       this.container,
       {
@@ -55,7 +62,31 @@ class Intro{
         }
       }
     )
+
+    // show
+    gsap.to(
+      this.infoContainer,
+      {
+        opacity: 1,
+        delay: 1.2,
+        duration: 1.4,
+      }
+    )
   }
+
+  //
+  // helper get date
+  //
+  getAge(dateString) {
+    var today = new Date();
+    var birthDate = new Date(dateString);
+    var age = today.getFullYear() - birthDate.getFullYear();
+    var m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+    }
+    return age;
+}
 }
 
 export default Intro

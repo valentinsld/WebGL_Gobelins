@@ -163,3 +163,29 @@ html
 	-webkit-transform: translate3d(0, -25%, 0);
 	transform: translate3d(0, -25%, 0);
 }
+
+
+/*
+//  Infos
+*/
+.info {
+  position: absolute;
+  padding: 1.5em;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  opacity: 0;
+
+  font-size: 1.2em;
+}
+
+.info_item {
+  
+}
+.item_title {
+  text-shadow: 1px 0px 0px var(--black);
+  letter-spacing: 1px;
+}
+.item_text {
+  
+}
