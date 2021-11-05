@@ -4,6 +4,8 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import * as dat from 'dat.gui'
 import Tree from './Tree'
 
+import Intro from './Intro'
+
 class App {
   constructor() {
     // Debug
@@ -26,7 +28,7 @@ class App {
     this.initAxis()
     this.initLight()
     this.initMap()
-    this.initTree()
+    this.initIntro()
 
     this.clock = new THREE.Clock()
     this.initEvents()
@@ -118,10 +120,26 @@ class App {
     this.scene.add(floor);
   }
 
-  initTree() {
-    this.tree = new Tree({
-      scene: this.scene
+  initIntro() {
+    this.intro = new Intro({
+      startFunc: this.initTree.bind(this)
     })
+  }
+
+  initTree(seed, age) {
+    this.tree = new Tree({
+      scene: this.scene,
+      seed,
+      age,
+      endFunc: this.endGeneration.bind(this)
+    })
+  }
+
+  endGeneration() {
+    this.intro.hide()
+
+    // Animation camera
+    // TODO
   }
 
 
@@ -161,7 +179,7 @@ class App {
     // Update controls
     this.controls.update()
 
-    this.tree.update(elapsedTime)
+    // this.tree.update(elapsedTime)
 
     // Render
     this.renderer.render(this.scene, this.camera)

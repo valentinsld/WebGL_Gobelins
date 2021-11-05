@@ -4,21 +4,27 @@ import gsap from 'gsap'
 import Seed from './Seed'
 
 const MIN_DIFFERENCE_ANGLE = Math.PI*0.2
-const WIDTH = 3.5
-const HEIGHT = 26
-const MAX_LEVEL = 4
+const WIDTH = 8
+const HEIGHT = 30
+const MAX_LEVEL = 8
 class Tree {
-  constructor({ scene }) {
-    Object.assign(this, { scene })
+  constructor({ scene, seed, age, endFunc }) {
+    Object.assign(this, { scene, endFunc })
 
-    this.seed = new Seed(42)
+    this.seed = new Seed(seed)
 
-    this.listBranches = [... new Array(MAX_LEVEL + 1)].map(() => [])
+    const ageFloat = age / 100
+    this.width = ageFloat * WIDTH
+    this.heigh = ageFloat * HEIGHT
+    this.maxLevel = Math.round(ageFloat * MAX_LEVEL)
+    console.log(this.maxLevel)
+
+    this.listBranches = [... new Array(this.maxLevel + 1)].map(() => [])
     
     this.initMaterial()
     this.initBranches()
     
-    setTimeout(this.animation.bind(this), 1000);
+    setTimeout(this.animation.bind(this), 100);
   }
 
   initMaterial() {
@@ -46,8 +52,8 @@ class Tree {
         y: 0,
         z: 0,
       },
-      width: WIDTH,
-      height: HEIGHT,
+      width: this.width,
+      height: this.heigh,
       angle: 0,
       rotationY: Math.PI * 0.5,
       parentContainer: this.initTree
@@ -58,7 +64,7 @@ class Tree {
   }
 
   newBranch({ pos, width, height, angle, rotationY, parentContainer, level = 0 }) {
-    const isLastBranch = level >= MAX_LEVEL
+    const isLastBranch = level >= this.maxLevel
     const nextWidth = isLastBranch ? width * 0.3 : width * 0.67
 
     // nextPOSITION :
@@ -164,10 +170,9 @@ class Tree {
   }
 
   //
-  // Update THREE
+  // Animated THREE
   //
   animation() {
-    console.log()
     this.listBranches.map((list, index) => {
       list.map((el) => {
         const duration = 2.8 - el.height / HEIGHT * 2
@@ -191,6 +196,9 @@ class Tree {
         )
       })
     })
+
+    // set endFUnction
+    this.endFunc.call()
   }
 
   //
