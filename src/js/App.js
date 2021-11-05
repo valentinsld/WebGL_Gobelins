@@ -6,6 +6,11 @@ import Tree from './Tree'
 
 import Intro from './Intro'
 
+function easeInQuad(x) {
+  if (x > 1) return x
+  return x * x;
+}
+
 class App {
   constructor() {
     // Debug
@@ -184,10 +189,10 @@ class App {
     // this.tree.update(elapsedTime)
 
     if (this.animationCamera) {
-      const elapsedTimeBis = elapsedTime - this.animationCamera
+      let elapsedTimeBis = elapsedTime - this.animationCamera
+      elapsedTimeBis = easeInQuad(elapsedTimeBis) 
 
       const multiplier = (1 + this.tree.ageFloat)
-      console.log(multiplier)
       const r = Math.min(50 + elapsedTimeBis * 0.5, 60) * multiplier
       const x = 0 + Math.cos(elapsedTimeBis) * r
       const z = 0 + Math.sin(elapsedTimeBis) * r
