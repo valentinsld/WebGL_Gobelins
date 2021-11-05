@@ -1,7 +1,7 @@
 import * as THREE from 'three'
 // eslint-disable-next-line import/extensions
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
-import * as dat from 'dat.gui'
+import SimplexNoise from 'simplex-noise'
 import Tree from './Tree'
 
 import Intro from './Intro'
@@ -112,7 +112,7 @@ class App {
     var size = 40;
 
     var floor = new THREE.Mesh(
-        new THREE.PlaneBufferGeometry(10, 10, 12, 12),
+        new THREE.PlaneBufferGeometry(10, 10, 16, 16),
         new THREE.MeshPhongMaterial({
             side : THREE.DoubleSide,
             color : 0xbbbbbb,
@@ -120,6 +120,22 @@ class App {
             shading : THREE.FlatShading
         })
     );
+
+    // add shader to plane
+    const simplex = new SimplexNoise()
+    const positions = floor.geometry.attributes.position
+    
+    for (let i = 0; i < positions.count; i++) {
+      const i3 = i * positions.itemSize
+      const posX = positions.array[i3];
+      const posZ = positions.array[i3 + 1];
+      
+      const noise = simplex.noise2D(posX, posZ)
+      positions.array[i3 + 2] += noise * 0.05 + 0.05
+    }
+    console.log(floor)
+    floor.updateMatrix();
+
 
     floor.position.set(0, 0.1, 0)
     floor.scale.set(size, size, size)
