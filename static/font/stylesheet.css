@@ -1,0 +1,10 @@
+@font-face {
+    font-family: 'Elanor Free Personal Use';
+    src: url('ElanorFreePersonalUse-ExtLt.woff2') format('woff2'),
+        url('ElanorFreePersonalUse-ExtLt.woff') format('woff'),
+        url('ElanorFreePersonalUse-ExtLt.svg#ElanorFreePersonalUse-ExtLt') format('svg');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
