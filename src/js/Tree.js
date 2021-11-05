@@ -7,16 +7,21 @@ const MIN_DIFFERENCE_ANGLE = Math.PI*0.2
 const WIDTH = 8
 const HEIGHT = 30
 const MAX_LEVEL = 8
+
+function easeOutCubic(x) {
+  return 1 - Math.pow(1 - x, 3);
+}
+
 class Tree {
   constructor({ scene, seed, age, endFunc }) {
     Object.assign(this, { scene, endFunc })
 
     this.seed = new Seed(seed)
 
-    const ageFloat = age / 100
-    this.width = ageFloat * WIDTH
-    this.heigh = ageFloat * HEIGHT
-    this.maxLevel = Math.round(ageFloat * MAX_LEVEL)
+    this.ageFloat = easeOutCubic(age / 100)
+    this.width = this.ageFloat * WIDTH
+    this.heigh = this.ageFloat * HEIGHT
+    this.maxLevel = Math.round(this.ageFloat * MAX_LEVEL)
     console.log(this.maxLevel)
 
     this.listBranches = [... new Array(this.maxLevel + 1)].map(() => [])
@@ -69,6 +74,7 @@ class Tree {
   newBranch({ pos, width, height, angle, rotationY, parentContainer, level = 0 }) {
     const isLastBranch = level >= this.maxLevel
     const nextWidth = isLastBranch ? width * 0.3 : width * 0.67
+    height = isLastBranch ? height * 2 : height
 
     // nextPOSITION :
     const positionNextBranch = { x: 0, y: height, z: 0 }

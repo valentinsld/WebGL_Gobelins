@@ -45,12 +45,15 @@ class App {
   initCamera() {
     // Base camera
     this.camera = new THREE.PerspectiveCamera(75, this.sizes.width / this.sizes.height, 0.1, 1000)
-    this.camera.position.set(20, 60, 50)
+    this.camera.position.set(50, 20, 0)
+    this.camera.lookAt(0, 30, 0)
     this.scene.add(this.camera)
 
+    this.animationCamera = false
+
     // Controls
-    this.controls = new OrbitControls(this.camera, this.canvas)
-    this.controls.target = new THREE.Vector3(0, 40, 0);
+    // this.controls = new OrbitControls(this.camera, this.canvas)
+    // this.controls.target = new THREE.Vector3(0, 40, 0);
   }
 
   initRenderer() {
@@ -138,8 +141,7 @@ class App {
   endGeneration() {
     this.intro.hide(this.tree.animation.bind(this.tree))
 
-    // Animation camera
-    // TODO
+    this.animationCamera = this.clock.getElapsedTime()
   }
 
 
@@ -177,9 +179,22 @@ class App {
     const elapsedTime = this.clock.getElapsedTime()
 
     // Update controls
-    this.controls.update()
+    // this.controls.update()
 
     // this.tree.update(elapsedTime)
+
+    if (this.animationCamera) {
+      const elapsedTimeBis = elapsedTime - this.animationCamera
+
+      const multiplier = (1 + this.tree.ageFloat)
+      console.log(multiplier)
+      const r = Math.min(50 + elapsedTimeBis * 0.5, 60) * multiplier
+      const x = 0 + Math.cos(elapsedTimeBis) * r
+      const z = 0 + Math.sin(elapsedTimeBis) * r
+      const y = 20 + elapsedTimeBis * 2 * multiplier
+      this.camera.position.set(x, Math.min(y, 60 * multiplier) , z)
+      this.camera.lookAt(0, 30, 0)
+    }
 
     // Render
     this.renderer.render(this.scene, this.camera)
