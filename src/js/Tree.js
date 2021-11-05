@@ -89,7 +89,7 @@ class Tree {
     parent.scale.y = 0
     parentContainer.add(parent)
 
-    this.listBranches[level].push({ mesh: parent, height })
+    this.listBranches[level].push({ mesh: parent, child: mesh, height })
 
     //
     // next branches
@@ -170,14 +170,24 @@ class Tree {
     console.log()
     this.listBranches.map((list, index) => {
       list.map((el) => {
+        const duration = 2.8 - el.height / HEIGHT * 2
         gsap.to(
           el.mesh.scale,
           {
             y: 1,
-            duration: 2.8 - el.height / HEIGHT * 2,
+            duration,
             ease: 'power2.out',
-            delay: index / 2
+            delay: index / 2.8
           }
+        )
+        gsap.to(
+          el.child.rotation,
+          {
+            y: Math.PI * 0.3,
+            duration,
+            ease: 'power2.out',
+          },
+          `<`
         )
       })
     })
