@@ -136,7 +136,7 @@ class App {
   }
 
   endGeneration() {
-    this.intro.hide()
+    this.intro.hide(this.tree.animation.bind(this.tree))
 
     // Animation camera
     // TODO

@@ -24,7 +24,10 @@ class Tree {
     this.initMaterial()
     this.initBranches()
     
-    setTimeout(this.animation.bind(this), 100);
+
+    // set endFUnction
+    setTimeout(this.endFunc, 100)
+    // setTimeout(this.animation.bind(this), 100);
   }
 
   initMaterial() {
@@ -196,9 +199,6 @@ class Tree {
         )
       })
     })
-
-    // set endFUnction
-    this.endFunc.call()
   }
 
   //

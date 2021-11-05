@@ -8,6 +8,13 @@ body,
 html
 {
     overflow: hidden;
+    font-family: 'Elanor Free Personal Use';
+
+    --black: #110e0c;
+    --grey: #555453;
+    --white: #fff;
+
+    color: var(--black);
 }
 
 .webgl
@@ -36,4 +43,122 @@ html
   flex-direction: column;
   align-items: center;
   justify-content: center;
+}
+
+.intro_title {
+  font-size: 4em;
+  margin-bottom: 0.1em;
+}
+
+.intro_text {
+  font-size: 1.5em;
+  margin-bottom: 2em;
+}
+
+.intro_input {
+  font-size: 1.2em;
+  padding: 4px 8px;
+  margin-bottom: 0.5em;
+
+  border-radius: 0.5em;
+  border: 1px solid var(--grey);
+}
+
+.intro_button {
+
+}
+
+/*
+// Button
+// https://codepen.io/art-lamark/pen/qZpoBz
+*/
+
+/* Common button styles */
+.button {
+	float: left;
+	min-width: 150px;
+	max-width: 250px;
+	display: block;
+	margin: 1em;
+	padding: 1em 2em;
+	border: none;
+	background: none;
+	color: inherit;
+	vertical-align: middle;
+	position: relative;
+	z-index: 1;
+	-webkit-backface-visibility: hidden;
+	-moz-osx-font-smoothing: grayscale;
+
+  cursor: pointer;
+}
+.button:focus {
+	outline: none;
+}
+.button > span {
+	vertical-align: middle;
+}
+
+/* Winona */
+.button--winona {
+	overflow: hidden;
+	padding: 0;
+	-webkit-transition: border-color 0.3s, background-color 0.3s;
+	transition: border-color 0.3s, background-color 0.3s;
+	-webkit-transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
+	transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
+
+  border: 1px solid var(--black);
+  font-size: 1.2em;
+}
+.button--winona::after {
+	content: attr(data-text);
+	position: absolute;
+	/* width: 100%;
+	height: 100%; */
+	top: 0;
+	left: 0;
+	opacity: 0;
+	color: var(--black);
+	-webkit-transform: translate3d(0, 25%, 0);
+	transform: translate3d(0, 25%, 0);
+}
+.button--winona > span {
+	display: block;
+  text-shadow: 1px 0px 0px var(--black);
+}
+.button--winona.button--inverted {
+	color: var(--black);
+}
+.button--winona.button--inverted:after {
+	color: var(--white);
+}
+.button--winona::after,
+.button--winona > span {
+	padding: 0.5em 1em;
+	-webkit-transition: -webkit-transform 0.3s, opacity 0.3s;
+	transition: transform 0.3s, opacity 0.3s;
+	-webkit-transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
+	transition-timing-function: cubic-bezier(0.2, 1, 0.3, 1);
+
+  letter-spacing: 1px;
+}
+.button--winona:hover {
+	border-color: var(--black);
+	background-color: rgba(63, 81, 181, 0.1);
+}
+.button--winona.button--inverted:hover {
+	border-color: var(--black);
+	background-color: var(--black);
+}
+.button--winona:hover::after {
+	opacity: 1;
+	-webkit-transform: translate3d(0, 0, 0);
+	transform: translate3d(0, 0, 0);
+  text-shadow: 1px 0px 0px var(--white);
+}
+.button--winona:hover > span {
+	opacity: 0;
+	-webkit-transform: translate3d(0, -25%, 0);
+	transform: translate3d(0, -25%, 0);
 }

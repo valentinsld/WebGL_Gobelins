@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" rel="stylesheet">
     <link href="https://generate-your-tree.vercel.app/font/stylesheet.css" rel="stylesheet">
 
     <title>WebGL Gobelins</title>
@@ -12,20 +13,24 @@
 <body>
 
     <div class="intro">
-      <h1>
+      <h1 class="intro_title">
         Generate my TREE
       </h1>
-      <p>
+      <p class="intro_text">
         Enter your date of birth to find out your age
       </p>
 
-      <input type="date" id="date" name="trip-start"
+      <input class="intro_input" type="date" id="date" name="trip-start"
         value="2018-07-22"
         min="2018-01-01" max="2018-12-31">
 
-       <button id="start">
-         See my tree
-       </button>
+      <button
+        id="start"
+        class="button button--winona button--border-thin button--text-thick button--inverted"
+        data-text="See my Tree"
+      >
+        <span>See my Tree</span>
+      </button>
     </div>
 
     <canvas class="webgl"></canvas>

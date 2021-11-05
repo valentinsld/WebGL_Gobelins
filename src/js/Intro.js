@@ -28,7 +28,9 @@ class Intro{
     this.buton = document.querySelector('#start')
 
     this.buton.addEventListener('click', () => {
-      this.buton.textContent = 'Loading ...'
+      const newText = 'Loading ...'
+      this.buton.dataset.text = newText
+      this.buton.querySelector('span').textContent = newText
 
       const date = new Date(this.inputDate.value)
       const seed = date.getTime()
@@ -40,13 +42,16 @@ class Intro{
     })
   }
 
-  hide() {
+  hide(func) {
     gsap.to(
       this.container,
       {
         opacity: 0,
         onStart: () => {
           this.container.style.pointerEvents = 'none'
+        },
+        onComplete: () => {
+          setTimeout(func, 100);
         }
       }
     )
