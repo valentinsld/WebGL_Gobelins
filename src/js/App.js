@@ -37,7 +37,7 @@ class App {
   //
   initScene() {
     this.scene = new THREE.Scene()
-    // this.scene.fog = new THREE.Fog('black', 0.1, 60)
+    this.scene.fog = new THREE.Fog('#fff', 300, 400)
   }
 
   initCamera() {
@@ -57,6 +57,7 @@ class App {
     })
     this.renderer.setSize(this.sizes.width, this.sizes.height)
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+    this.renderer.setClearColor(0xffffff)
   }
 
   //
