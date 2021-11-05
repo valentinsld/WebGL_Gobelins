@@ -77,6 +77,7 @@ class Tree {
 
     const mesh = new THREE.Mesh(cylinder, this.MATERIAL)
     mesh.position.y = height / 2
+    mesh.castShadow = true;
 
     // parent
     const parent = new THREE.Object3D()
