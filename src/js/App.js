@@ -9,7 +9,7 @@ import Intro from './Intro'
 class App {
   constructor() {
     // Debug
-    this.gui = new dat.GUI({ width: 340 })
+    // this.gui = new dat.GUI({ width: 340 })
     this.debug = window.location.hash === '#DEBUG'
 
     // Canvas
