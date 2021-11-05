@@ -17,6 +17,11 @@ html
     color: var(--black);
 }
 
+::selection {
+  background-color: var(--grey);
+  color: var(--white);
+}
+
 .webgl
 {
     position: fixed;
