@@ -1,4 +1,6 @@
 import gsap from 'gsap'
+import { SplitText } from "./greensock/SplitText"
+gsap.registerPlugin(SplitText)
 
 class Intro{
   constructor({ startFunc }) {
@@ -7,8 +9,40 @@ class Intro{
     this.container = document.querySelector('.intro')
     this.infoContainer = document.querySelector('.info')
 
+    this.initAnimation()
+
     this.initInput()
     this.initButton()
+  }
+
+  initAnimation() {
+    console.log('aaa')
+    const h1 = document.querySelector('h1')
+    const lettersh1 = new SplitText(h1, { type:"chars" }).chars
+
+    const timeline = gsap.timeline()
+
+    timeline
+      .from(
+        lettersh1,
+        {
+          opacity: 0,
+          duration: 0.7,
+          stagger: 0.06,
+          ease: "power3.out",
+          y: 22
+        }
+      )
+      .from(
+        document.querySelectorAll('.intro .introAnimated'),
+        {
+          opacity: 0,
+          duration: 1.2,
+          stagger: 0.25,
+          ease: "power2.out",
+          y: 20
+        }
+      )
   }
 
   initInput() {
