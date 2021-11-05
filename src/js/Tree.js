@@ -22,7 +22,6 @@ class Tree {
     this.width = this.ageFloat * WIDTH
     this.heigh = this.ageFloat * HEIGHT
     this.maxLevel = Math.round(this.ageFloat * MAX_LEVEL)
-    console.log(this.maxLevel)
 
     this.listBranches = [... new Array(this.maxLevel + 1)].map(() => [])
     
@@ -68,7 +67,6 @@ class Tree {
     })
 
     this.scene.add(this.initTree)
-    console.log(this.scene)
   }
 
   newBranch({ pos, width, height, angle, rotationY, parentContainer, level = 0 }) {
