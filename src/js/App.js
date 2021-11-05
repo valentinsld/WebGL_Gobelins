@@ -121,11 +121,11 @@ class App {
         })
     );
 
-    floor.position.set(0, 0.1, 0);
-    floor.scale.set(size, size, size);
-    floor.rotation.set(- Math.PI * 0.5, 0, 0);
-    floor.receiveShadow = true;
-    this.scene.add(floor);
+    floor.position.set(0, 0.1, 0)
+    floor.scale.set(size, size, size)
+    floor.rotation.set(- Math.PI * 0.5, 0, 0)
+    floor.receiveShadow = true
+    this.scene.add(floor)
   }
 
   initIntro() {
@@ -185,8 +185,6 @@ class App {
 
     // Update controls
     // this.controls.update()
-
-    // this.tree.update(elapsedTime)
 
     if (this.animationCamera) {
       let elapsedTimeBis = elapsedTime - this.animationCamera
