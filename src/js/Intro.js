@@ -18,7 +18,7 @@ class Intro{
   initAnimation() {
     console.log('aaa')
     const h1 = document.querySelector('h1')
-    const lettersh1 = new SplitText(h1, { type:"chars" }).chars
+    const lettersh1 = new SplitText(h1, { type:"lines,chars" }).chars
 
     const timeline = gsap.timeline()
 
